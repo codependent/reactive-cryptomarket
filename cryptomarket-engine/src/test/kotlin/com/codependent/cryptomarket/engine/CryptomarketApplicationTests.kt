@@ -1,4 +1,4 @@
-package com.codependent.cryptomarket
+package com.codependent.cryptomarket.engine
 
 import org.junit.Test
 import org.junit.runner.RunWith

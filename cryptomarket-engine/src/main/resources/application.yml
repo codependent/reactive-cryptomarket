@@ -1,0 +1,13 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        output:
+          destination: marketValues
+server:
+  port: 8084
+
+logging:
+  level:
+    org.springframework.cloud: error
+
