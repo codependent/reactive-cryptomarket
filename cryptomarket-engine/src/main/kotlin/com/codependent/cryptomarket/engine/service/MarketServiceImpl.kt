@@ -2,17 +2,17 @@ package com.codependent.cryptomarket.engine.service
 
 import com.codependent.cryptomarket.engine.dto.Market
 import org.slf4j.LoggerFactory
+import org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext
 import org.springframework.context.ApplicationListener
 import org.springframework.context.event.ContextRefreshedEvent
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.UnicastProcessor
-import reactor.core.scheduler.Schedulers
 import java.time.Duration
 import java.util.*
 
 @Service
-class MarketServiceImpl : MarketService, ApplicationListener<ContextRefreshedEvent>{
+class MarketServiceImpl : MarketService, ApplicationListener<ContextRefreshedEvent> {
 
     private val logger = LoggerFactory.getLogger(javaClass)
     private val random = Random()
@@ -24,15 +24,17 @@ class MarketServiceImpl : MarketService, ApplicationListener<ContextRefreshedEve
     private val marketFlux: Flux<Market> = emitter.publish().autoConnect()
 
     override fun onApplicationEvent(event: ContextRefreshedEvent) {
-        startLiveMarkets()
+        if (event.source is AnnotationConfigServletWebServerApplicationContext) {
+            startLiveMarkets()
+        }
     }
 
     override fun getMarketStream(): Flux<Market> {
-        return marketFlux
+        return marketFlux.log()
     }
 
     private fun startLiveMarkets() {
-        Flux.interval(Duration.ofSeconds(5))
+        Flux.interval(Duration.ofSeconds(1))
                 .map {
                     markets.forEach { n, v ->
                         val currentMarket = (Market(n, (v + rand(-10f, 10f))))
@@ -40,7 +42,6 @@ class MarketServiceImpl : MarketService, ApplicationListener<ContextRefreshedEve
                         emitter.onNext(currentMarket)
                     }
                 }
-                .subscribeOn(Schedulers.elastic())
                 .subscribe()
     }
 
