@@ -50,7 +50,8 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('com.fasterxml.jackson.module:jackson-module-kotlin')
 	compile('org.springframework.cloud:spring-cloud-stream')
-	compile 'org.springframework.cloud:spring-cloud-starter-stream-kafka'
+    compile 'org.springframework.cloud:spring-cloud-starter-stream-kafka'
+    compile 'org.springframework.cloud:spring-cloud-stream-reactive'
 	compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	compile("org.jetbrains.kotlin:kotlin-reflect")
 	testCompile('org.springframework.boot:spring-boot-starter-test')
@@ -60,6 +61,7 @@ dependencies {
 
 dependencyManagement {
 	imports {
+		mavenBom 'org.springframework.cloud:spring-cloud-stream-dependencies:Elmhurst.RC3'
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 	}
 }

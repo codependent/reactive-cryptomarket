@@ -3,7 +3,7 @@ spring:
     stream:
       bindings:
         output:
-          destination: marketValues
+            destination: markets
 server:
   port: 8084
 

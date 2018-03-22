@@ -3,4 +3,4 @@ spring:
     stream:
       bindings:
         input:
-          destination: marketValues
+          destination: markets

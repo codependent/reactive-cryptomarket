@@ -2,7 +2,7 @@ package com.codependent.cryptomarket.engine.service
 
 import com.codependent.cryptomarket.engine.dto.Market
 import org.slf4j.LoggerFactory
-import org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext
+import org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWebServerApplicationContext
 import org.springframework.context.ApplicationListener
 import org.springframework.context.event.ContextRefreshedEvent
 import org.springframework.stereotype.Service
@@ -24,7 +24,7 @@ class MarketServiceImpl : MarketService, ApplicationListener<ContextRefreshedEve
     private val marketFlux: Flux<Market> = emitter.publish().autoConnect()
 
     override fun onApplicationEvent(event: ContextRefreshedEvent) {
-        if (event.source is AnnotationConfigServletWebServerApplicationContext) {
+        if (event.source is AnnotationConfigReactiveWebServerApplicationContext) {
             startLiveMarkets()
         }
     }
