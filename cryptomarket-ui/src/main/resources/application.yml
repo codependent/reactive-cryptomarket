@@ -4,3 +4,6 @@ spring:
       bindings:
         input:
           destination: markets
+logging:
+  level:
+    org.springframework.web.reactive: debug

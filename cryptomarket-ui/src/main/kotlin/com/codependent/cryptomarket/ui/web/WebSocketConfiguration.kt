@@ -19,6 +19,7 @@ class WebSocketConfiguration {
         map["/markets"] = MarketsWebSocketHandler(marketSink)
         val mapping = SimpleUrlHandlerMapping()
         mapping.urlMap = map
+        mapping.order = 10
         return mapping
     }
 
