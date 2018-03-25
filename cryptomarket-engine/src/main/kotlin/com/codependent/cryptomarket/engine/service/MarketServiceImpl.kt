@@ -6,8 +6,11 @@ import org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWeb
 import org.springframework.context.ApplicationListener
 import org.springframework.context.event.ContextRefreshedEvent
 import org.springframework.stereotype.Service
+import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import reactor.core.publisher.UnicastProcessor
+import java.net.URI
 import java.time.Duration
 import java.util.*
 
@@ -38,6 +41,7 @@ class MarketServiceImpl : MarketService, ApplicationListener<ContextRefreshedEve
                 .map {
                     markets.forEach { n, v ->
                         val currentMarket = (Market(n, (v + rand(-10f, 10f))))
+                        markets[n] = currentMarket.value
                         logger.info("Emmiting {}", currentMarket)
                         emitter.onNext(currentMarket)
                     }
@@ -48,4 +52,19 @@ class MarketServiceImpl : MarketService, ApplicationListener<ContextRefreshedEve
     private fun rand(from: Float, to: Float): Float {
         return random.nextFloat() * (to - from) + from
     }
+
+}
+
+fun main(args: Array<String>) {
+
+    val subscribe = WebClient.create().get().uri(URI("")).retrieve().bodyToFlux(String::class.java).subscribe()
+    subscribe.dispose()
+    Flux.just("a", "b", "c")
+            .flatMap { s ->
+                if (s == "b")
+                    Mono.error<RuntimeException>(RuntimeException())
+                else
+                    Flux.just(s + "1", s + "2")
+            }.onErrorResume { throwable -> Mono.just("d") }.log()
+            .subscribe { println(it) }
 }

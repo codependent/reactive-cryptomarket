@@ -18,6 +18,10 @@ class MarketSink {
     private val emitter = UnicastProcessor.create<Market>()
     val marketFlux: Flux<Market> = emitter.publish().autoConnect()
 
+    fun getMarket(market : String) : Flux<Market> {
+        return marketFlux.filter { it.name == market }
+    }
+
     @StreamListener
     fun handle(@Input(Sink.INPUT) market: Flux<Market>) {
         market.subscribeOn(Schedulers.elastic())
