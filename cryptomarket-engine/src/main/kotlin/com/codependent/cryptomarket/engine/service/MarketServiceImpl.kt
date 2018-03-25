@@ -40,7 +40,7 @@ class MarketServiceImpl : MarketService, ApplicationListener<ContextRefreshedEve
         Flux.interval(Duration.ofSeconds(1))
                 .map {
                     markets.forEach { n, v ->
-                        val currentMarket = (Market(n, (v + rand(-10f, 10f))))
+                        val currentMarket = (Market(n, (v + rand(-10f, 10f)), Date()))
                         markets[n] = currentMarket.value
                         logger.info("Emmiting {}", currentMarket)
                         emitter.onNext(currentMarket)

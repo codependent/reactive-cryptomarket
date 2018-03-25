@@ -29,7 +29,7 @@ class MarketsWebSocketTest {
                     .subscribeWith(output).then()).then()
         }
 
-        output.doOnSubscribe { s -> sessionMono.subscribe() }
+        output.doOnSubscribe { _ -> sessionMono.subscribe() }
             .doOnNext { c ->
                 logger.info("Received [{}]", c)
                 latch.countDown()
