@@ -60,9 +60,10 @@ function updateChart(wsEvent) {
 }
 
 $(".dropdown-menu.coin li").click((e) => {
-    selectedMarket = $(e.currentTarget).attr("data-coin");
-    $("#coin-icon").attr("src", "assets/img/" + selectedMarket + ".png");
     websocket.close();
     chartData.splice(0,chartData.length);
+    chart.validateData();
+    selectedMarket = $(e.currentTarget).attr("data-coin");
+    $("#coin-icon").attr("src", "assets/img/" + selectedMarket + ".png");
     websocket = initWebSocket(websocketEchoServerUri);
 });

@@ -16,8 +16,10 @@ class MarketsWebSocketHandler(val marketSink: MarketSink, val jacksonMapper : Ob
     override fun handle(session: WebSocketSession): Mono<Void> {
         val processor = EmitterProcessor.create<Market>()
 
-        session.receive()
-                .map { message ->
+        session.receive().doFinally {
+                    logger.info("Receive session finished - reason [{}]", it.name)
+                    session.close()
+                }.map { message ->
                     message.payloadAsText
                 }.log().subscribe {
                     marketSink.getMarket(it).subscribeWith(processor)
