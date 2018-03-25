@@ -1,6 +1,7 @@
 package com.codependent.cryptomarket.ui
 
 import org.junit.Test
+import org.slf4j.LoggerFactory
 import org.springframework.web.reactive.socket.client.ReactorNettyWebSocketClient
 import reactor.core.publisher.EmitterProcessor
 import reactor.core.publisher.Mono
@@ -10,9 +11,11 @@ import java.util.concurrent.CountDownLatch
 
 class MarketsWebSocketTest {
 
+    private val logger = LoggerFactory.getLogger(javaClass)
+
     @Test
     fun shouldInvokeWebSocket() {
-        val latch = CountDownLatch(100)
+        val latch = CountDownLatch(20)
         val output = EmitterProcessor.create<String>()
         val client = ReactorNettyWebSocketClient()
 
@@ -21,14 +24,16 @@ class MarketsWebSocketTest {
         val sessionMono = client.execute(URI.create("ws://localhost:8080/markets")) { session ->
             session.send(input.map {
                 session.textMessage(it)
-            }).thenMany(session.receive().map { it.payloadAsText }.subscribeWith(output).then()).then()
-        }.doOnNext { c -> println(c) }.doOnTerminate { latch.countDown() }
+            }).thenMany(session.receive()
+                    .map { it.payloadAsText }
+                    .subscribeWith(output).then()).then()
+        }
 
         output.doOnSubscribe { s -> sessionMono.subscribe() }
-                .doOnNext { c ->
-                    println(c)
-                    latch.countDown()
-                }.subscribe()
+            .doOnNext { c ->
+                logger.info("Received [{}]", c)
+                latch.countDown()
+            }.subscribe()
 
         latch.await()
     }
