@@ -87,9 +87,9 @@
 									<p>Markets</p>
 									<b class="caret"></b>
                               </a>
-                              <ul class="dropdown-menu">
-                                <li><a href="#">BTC</a></li>
-                                <li><a href="#">ETH</a></li>
+                              <ul class="dropdown-menu coin">
+                                <li data-coin="BTC"><a href="#">BTC</a></li>
+                                <li data-coin="ETH"><a href="#">ETH</a></li>
                               </ul>
                         </li>
 						<li>
@@ -114,13 +114,13 @@
                                 <div class="row">
                                     <div class="col-xs-5">
                                         <div class="icon-big icon-warning text-center">
-                                            <img src="assets/img/bitcoin.png" width="60px"/>
+                                            <img id="coin-icon" src="assets/img/BTC.png" width="60px"/>
                                         </div>
                                     </div>
                                     <div class="col-xs-7">
                                         <div class="numbers">
-                                            <p>Market</p>
-                                            Bitcoin
+                                            <p>Current Price</p>
+                                            <span id="current-price"></span>
                                         </div>
                                     </div>
                                 </div>

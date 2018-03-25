@@ -55,5 +55,14 @@ function updateChart(wsEvent) {
     if (chartData.length > 50) {
         chartData.splice(0, chartData.length - 50);
     }
+    $("#current-price").html(newData.value);
     chart.validateData();
 }
+
+$(".dropdown-menu.coin li").click((e) => {
+    selectedMarket = $(e.currentTarget).attr("data-coin");
+    $("#coin-icon").attr("src", "assets/img/" + selectedMarket + ".png");
+    websocket.close();
+    chartData.splice(0,chartData.length);
+    websocket = initWebSocket(websocketEchoServerUri);
+});
