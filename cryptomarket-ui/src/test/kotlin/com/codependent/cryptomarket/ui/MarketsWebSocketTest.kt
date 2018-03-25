@@ -21,8 +21,7 @@ class MarketsWebSocketTest {
         val sessionMono = client.execute(URI.create("ws://localhost:8080/markets")) { session ->
             session.send(input.map {
                 session.textMessage(it)
-            })
-                    .thenMany(session.receive().map { it.payloadAsText }.subscribeWith(output).then()).then()
+            }).thenMany(session.receive().map { it.payloadAsText }.subscribeWith(output).then()).then()
         }.doOnNext { c -> println(c) }.doOnTerminate { latch.countDown() }
 
         output.doOnSubscribe { s -> sessionMono.subscribe() }

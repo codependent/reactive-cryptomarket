@@ -54,6 +54,7 @@ dependencies {
     compile 'org.springframework.cloud:spring-cloud-stream-reactive'
 	compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	compile("org.jetbrains.kotlin:kotlin-reflect")
+	compile "org.slf4j:slf4j-api"
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('io.projectreactor:reactor-test')
 	testCompile('org.springframework.cloud:spring-cloud-stream-test-support')

@@ -1,6 +1,7 @@
 package com.codependent.cryptomarket.ui.web
 
 import com.codependent.cryptomarket.ui.stream.MarketSink
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.HandlerMapping
@@ -14,9 +15,9 @@ import java.util.*
 class WebSocketConfiguration {
 
     @Bean
-    fun webSocketMapping(marketSink: MarketSink): HandlerMapping {
+    fun webSocketMapping(marketSink: MarketSink, objectMapper : ObjectMapper): HandlerMapping {
         val map = HashMap<String, WebSocketHandler>()
-        map["/markets"] = MarketsWebSocketHandler(marketSink)
+        map["/markets"] = MarketsWebSocketHandler(marketSink, objectMapper)
         val mapping = SimpleUrlHandlerMapping()
         mapping.urlMap = map
         mapping.order = 10
