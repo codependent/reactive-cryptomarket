@@ -9,7 +9,7 @@ import org.springframework.web.reactive.socket.WebSocketSession
 import reactor.core.publisher.EmitterProcessor
 import reactor.core.publisher.Mono
 
-class MarketsWebSocketHandler(val marketSink: MarketSink, val jacksonMapper : ObjectMapper) : WebSocketHandler {
+class MarketsWebSocketHandler(private val marketSink: MarketSink, private val jacksonMapper: ObjectMapper) : WebSocketHandler {
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -17,20 +17,20 @@ class MarketsWebSocketHandler(val marketSink: MarketSink, val jacksonMapper : Ob
         val processor = EmitterProcessor.create<Market>()
 
         session.receive().doFinally {
-                    logger.info("Receive session finished - reason [{}]", it.name)
-                    session.close()
-                }.map { message ->
-                    message.payloadAsText
-                }.log().subscribe {
-                    marketSink.getMarket(it).subscribeWith(processor)
-                }
+            logger.info("Receive session finished - reason [{}]", it.name)
+            session.close()
+        }.map { message ->
+            message.payloadAsText
+        }.log().subscribe {
+            marketSink.getMarket(it).subscribeWith(processor)
+        }
 
         return session.send(processor.doOnNext {
-                    logger.info("Relaying [{}]", it)
-                }.map {
-                    session.textMessage(jacksonMapper.writeValueAsString(it))
-                }).log().doFinally {
-                    logger.info("Send session finished - reason [{}]", it.name)
-                }.then()
+            logger.info("Relaying [{}]", it)
+        }.map {
+            session.textMessage(jacksonMapper.writeValueAsString(it))
+        }).log().doFinally {
+            logger.info("Send session finished - reason [{}]", it.name)
+        }.then()
     }
 }
