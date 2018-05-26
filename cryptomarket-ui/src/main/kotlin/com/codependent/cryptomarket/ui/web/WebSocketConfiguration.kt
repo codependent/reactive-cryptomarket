@@ -15,7 +15,7 @@ import java.util.*
 class WebSocketConfiguration {
 
     @Bean
-    fun webSocketMapping(marketSink: MarketSink, objectMapper : ObjectMapper): HandlerMapping {
+    fun webSocketMapping(marketSink: MarketSink, objectMapper: ObjectMapper): HandlerMapping {
         val map = HashMap<String, WebSocketHandler>()
         map["/markets"] = MarketsWebSocketHandler(marketSink, objectMapper)
         val mapping = SimpleUrlHandlerMapping()

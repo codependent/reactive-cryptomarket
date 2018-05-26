@@ -20,6 +20,7 @@ class MarketServiceImpl : MarketService {
                 .flatMap {
                     markets.map {
                         val currentMarket = Market(it.key, (it.value + rand(-10f, 10f)), Date())
+                        markets[it.key] = currentMarket.value
                         currentMarket
                     }.toFlux()
                 }.log()

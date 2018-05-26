@@ -14,7 +14,7 @@ var chart = AmCharts.makeChart("chartdiv", {
     "graphs": [{
         "id": "g1",
         "bullet": "round",
-        "bulletSize" : 8,
+        "bulletSize": 8,
         "lineColor": "#d1655d",
         "lineThickness": 2,
         "negativeLineColor": "#637bb6",
@@ -60,8 +60,9 @@ function updateChart(wsEvent) {
 }
 
 $(".dropdown-menu.coin li").click((e) => {
+    e.preventDefault();
     websocket.close();
-    chartData.splice(0,chartData.length);
+    chartData.splice(0, chartData.length);
     chart.validateData();
     selectedMarket = $(e.currentTarget).attr("data-coin");
     $("#coin-icon").attr("src", "assets/img/" + selectedMarket + ".png");
