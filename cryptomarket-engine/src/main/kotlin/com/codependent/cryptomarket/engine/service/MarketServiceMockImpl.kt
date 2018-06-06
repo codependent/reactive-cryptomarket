@@ -1,29 +1,27 @@
 package com.codependent.cryptomarket.engine.service
 
 import com.codependent.cryptomarket.engine.dto.Market
+import com.codependent.cryptomarket.engine.repository.MarketRepository
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
-import reactor.core.publisher.toFlux
 import java.time.Duration
 import java.util.*
 
 @Service
-class MarketServiceImpl : MarketService {
+class MarketServiceImpl(private val marketRepository: MarketRepository) : MarketService {
 
     private val random = Random()
-    private val markets = mutableMapOf(
-            "BTC" to 7000.00f,
-            "ETH" to 600.00f)
 
     override fun getMarketStream(): Flux<Market> {
         return Flux.interval(Duration.ofSeconds(1))
                 .flatMap {
-                    markets.map {
-                        val currentMarket = Market(it.key, (it.value + rand(-10f, 10f)), Date())
-                        markets[it.key] = currentMarket.value
-                        currentMarket
-                    }.toFlux()
-                }.log()
+                    marketRepository.findAll().flatMap {
+                        it.value += rand(-10f, 10f)
+                        marketRepository.save(it)
+                    }.map {
+                        Market(it.name, it.value, Date())
+                    }
+                }
     }
 
     private fun rand(from: Float, to: Float): Float {
