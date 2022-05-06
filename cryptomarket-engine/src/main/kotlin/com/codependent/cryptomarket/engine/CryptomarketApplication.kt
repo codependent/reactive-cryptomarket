@@ -10,7 +10,6 @@ import org.springframework.cloud.stream.annotation.EnableBinding
 import org.springframework.cloud.stream.messaging.Source
 import reactor.core.publisher.Mono
 
-@EnableBinding(Source::class)
 @SpringBootApplication
 class CryptomarketApplication(private val marketRepository: MarketRepository) : CommandLineRunner {
 

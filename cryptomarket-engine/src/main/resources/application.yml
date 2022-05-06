@@ -3,11 +3,11 @@ spring:
     stream:
       bindings:
         output:
-            destination: markets
+          destination: markets
 server:
   port: 8085
 
 logging:
   level:
-    org.springframework.cloud: error
+    com.codependent.cryptomarket.engine: debug
 

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.cloud.stream.annotation.Input
 import org.springframework.cloud.stream.annotation.StreamListener
 import org.springframework.cloud.stream.messaging.Sink
+import org.springframework.cloud.stream.messaging.Sink.INPUT
 import org.springframework.stereotype.Component
 import reactor.core.publisher.Flux
 import reactor.core.publisher.UnicastProcessor
@@ -21,7 +22,7 @@ class MarketSink {
     }
 
     @StreamListener
-    fun handle(@Input(Sink.INPUT) market: Flux<Market>) {
+    fun handle(@Input(INPUT) market: Flux<Market>) {
         market.subscribe {
             logger.info("Received: {}", it)
             processor.onNext(it)

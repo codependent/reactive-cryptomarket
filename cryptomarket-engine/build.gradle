@@ -1,7 +1,7 @@
 buildscript {
     ext {
-        kotlinVersion = '1.2.41'
-        springBootVersion = '2.0.2.RELEASE'
+        kotlinVersion = '1.6.21'
+        springBootVersion = '2.6.7'
     }
     repositories {
         mavenCentral()
@@ -22,17 +22,17 @@ apply plugin: 'jacoco'
 
 group = 'com.codependent.cryptomarket'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
+sourceCompatibility = 17
 compileKotlin {
     kotlinOptions {
         freeCompilerArgs = ["-Xjsr305=strict"]
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 }
 compileTestKotlin {
     kotlinOptions {
         freeCompilerArgs = ["-Xjsr305=strict"]
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 }
 
@@ -44,7 +44,7 @@ repositories {
 
 
 ext {
-    springCloudVersion = 'Finchley.RC1'
+    springCloudVersion = '2021.0.2'
 }
 
 dependencyManagement {
@@ -54,19 +54,18 @@ dependencyManagement {
 }
 
 dependencies {
-    compile 'org.springframework.boot:spring-boot-starter-webflux',
+    implementation 'org.springframework.boot:spring-boot-starter-webflux',
             'org.springframework.boot:spring-boot-starter-actuator',
             'org.springframework.cloud:spring-cloud-stream',
-            'org.springframework.cloud:spring-cloud-stream-reactive',
-            'org.springframework.cloud:spring-cloud-starter-stream-kafka',
+            'org.springframework.cloud:spring-cloud-stream-binder-kafka',
             "org.jetbrains.kotlin:kotlin-stdlib-jdk8",
             "org.jetbrains.kotlin:kotlin-reflect",
             'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
-    testCompile 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
-    testCompile('org.springframework.cloud:spring-cloud-stream-test-support') {
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine'
+    testImplementation('org.springframework.cloud:spring-cloud-stream-test-support') {
         exclude group: 'junit', module: 'junit'
     }
-    testCompile 'io.projectreactor:reactor-test:3.2.3.RELEASE'
+    testImplementation 'io.projectreactor:reactor-test'
 }
 
 test {
