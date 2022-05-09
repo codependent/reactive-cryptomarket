@@ -3,12 +3,9 @@ package com.codependent.cryptomarket.ui
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 import org.springframework.web.reactive.socket.client.ReactorNettyWebSocketClient
-import reactor.core.publisher.EmitterProcessor
-import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.core.publisher.Sinks
 import java.net.URI
-import java.time.Duration
 import java.util.concurrent.CountDownLatch
 
 
