@@ -2,7 +2,7 @@ spring:
   cloud:
     stream:
       bindings:
-        output:
+        marketSupplier-out-0:
           destination: markets
 server:
   port: 8085

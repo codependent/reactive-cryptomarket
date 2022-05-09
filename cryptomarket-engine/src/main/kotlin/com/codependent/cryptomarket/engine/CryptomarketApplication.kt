@@ -19,13 +19,13 @@ class CryptomarketApplication(private val marketRepository: MarketRepository) : 
         marketRepository.findById("BTC")
                 .switchIfEmpty(Mono.defer {
                     logger.info("Creating default BTC Market")
-                    marketRepository.save(MarketDocument("BTC", 7500.00F))
+                    marketRepository.save(MarketDocument("BTC", 35000.00F))
                 })
                 .subscribe()
         marketRepository.findById("ETH")
                 .switchIfEmpty(Mono.defer {
                     logger.info("Creating default ETH Market")
-                    marketRepository.save(MarketDocument("ETH", 550.00F))
+                    marketRepository.save(MarketDocument("ETH", 2500.00F))
                 })
                 .subscribe()
     }

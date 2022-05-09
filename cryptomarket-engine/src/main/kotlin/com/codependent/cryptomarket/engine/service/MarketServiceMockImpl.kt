@@ -16,7 +16,7 @@ class MarketServiceImpl(private val marketRepository: MarketRepository) : Market
         return Flux.interval(Duration.ofSeconds(1))
                 .flatMap {
                     marketRepository.findAll().flatMap {
-                        it.value += rand(-10f, 10f)
+                        it.value += rand(-100f, 100f)
                         marketRepository.save(it)
                     }.map {
                         Market(it.name, it.value, Date())

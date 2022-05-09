@@ -2,7 +2,7 @@ spring:
   cloud:
     stream:
       bindings:
-        input:
+        marketConsumer-in-0:
           destination: markets
 logging:
   level:

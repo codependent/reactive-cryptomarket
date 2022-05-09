@@ -1,6 +1,6 @@
 package com.codependent.cryptomarket.ui
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 import org.springframework.web.reactive.socket.client.ReactorNettyWebSocketClient
 import reactor.core.publisher.EmitterProcessor
