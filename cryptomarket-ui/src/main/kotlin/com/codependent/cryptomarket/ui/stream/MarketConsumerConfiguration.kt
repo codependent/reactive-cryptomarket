@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.core.publisher.Sinks
+import java.util.function.Function
 
 @Configuration
 class MarketConsumerConfiguration {
@@ -17,8 +18,8 @@ class MarketConsumerConfiguration {
     fun marketSink() = Sinks.many().multicast().directBestEffort<Market>()
 
     @Bean
-    fun marketConsumer(): java.util.function.Function<Flux<Market>, Mono<Void>> =
-        java.util.function.Function<Flux<Market>, Mono<Void>> {
+    fun marketConsumer(): Function<Flux<Market>, Mono<Void>> =
+        Function<Flux<Market>, Mono<Void>> {
             it.doOnNext { market ->
                 logger.info("Received: {}", market)
                 marketSink().tryEmitNext(market)
